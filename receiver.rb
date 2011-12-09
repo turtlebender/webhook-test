@@ -1,8 +1,11 @@
 require 'sinatra'
-
+require "json"
 
 post '/webhook-test' do
 
-  puts request.body.read()
+  push = JSON.parse(params[:payload])
+  environment = push['ref'].split "/"
+  `fix --env=#{environment.last} node:all`
+  
 
 end
